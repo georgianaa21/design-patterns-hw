@@ -42,26 +42,34 @@ public class Order<T> implements Subject, Observer, Creator {
     //crearea obiectului folosind strategy
     @Override
     @SuppressWarnings("unchecked")
-    public T create(String type, float price, String ... args) {
-        if(type == "menu") {
-            object = (T)new MenuBuilder()
-                    .with(
-                            menuBuilder -> {
-                                menuBuilder.pizzaType = args[0];
-                                menuBuilder.sauce = args[1];
-                                menuBuilder.drink = args[2];
-                                menuBuilder.desert = args[3];
-                                menuBuilder.price = price;
-                                menuBuilder.register(this::update);
-                            }
-                    ).buildMenu();
+    public T create(String type, double price, String ... args) {
+        try {
+            if(type == "menu") {
+                object = (T)new MenuBuilder()
+                        .with(
+                                menuBuilder -> {
+                                    menuBuilder.pizzaType = args[0];
+                                    menuBuilder.sauce = args[1];
+                                    menuBuilder.drink = args[2];
+                                    menuBuilder.desert = args[3];
+                                    menuBuilder.price = price;
+                                    menuBuilder.register(this);
+                                    menuBuilder.notifyObservers();
+                                }
+                        ).buildMenu();
+            }
+            else {
+                PizzaFactory pizzaFactory = new PizzaFactory();
+                object = (T)pizzaFactory.makePizza(args[0]);
+                pizzaFactory.register(this);
+                pizzaFactory.notifyObservers();
+            }
         }
-        else {
-            PizzaFactory pizzaFactory = new PizzaFactory();
-            object = (T)pizzaFactory.makePizza(args[0]);
-            pizzaFactory.register(this::update);
-
+        catch(Exception e) {
+            e.printStackTrace();
         }
-        return object;
+        finally {
+            return object;
+        }
     }
 }

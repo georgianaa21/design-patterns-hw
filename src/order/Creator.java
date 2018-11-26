@@ -4,5 +4,5 @@ package order;
 //T apartine {Pizza, Menu}
 //R apartine {MenuBuilder, PizzaFactory}
 public interface Creator<T> {
-    public T create(String type, float price, String ... args);
+    public T create(String type, double price, String ... args);
 }
