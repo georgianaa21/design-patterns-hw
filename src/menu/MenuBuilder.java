@@ -12,6 +12,7 @@ public class MenuBuilder {
     public String drink;
     public String desert;
     public double price;
+    public int extras = 0;
 
     public MenuBuilder with(
             Consumer<MenuBuilder> builderFunction) {
@@ -23,5 +24,9 @@ public class MenuBuilder {
         return new Menu(pizzaFactory.makePizza(pizzaType),
                 sauce, drink, desert, price);
     }
+
+//    public Menu addExtra(String extra, double price) {
+//        // cum folosesc asta?
+//    }
 
 }

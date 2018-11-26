@@ -35,6 +35,11 @@ public abstract class Pizza {
     void addExtra(String extra, double price) {
         this.toppings.add(extra);
         this.price += price;
+        extras++;
+    }
+
+    public int getExtras() {
+        return extras;
     }
 
     @Override

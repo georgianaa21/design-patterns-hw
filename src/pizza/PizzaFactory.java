@@ -1,8 +1,8 @@
 package pizza;
 
 public class PizzaFactory {
+    Pizza pizza;
     public Pizza makePizza(String type) {
-        Pizza pizza = null;
 
         if(type.equals("margherita")) {
             pizza = new PizzaMargherita();
@@ -17,6 +17,13 @@ public class PizzaFactory {
             pizza = new PizzaSicilian();
         }
 
+        return pizza;
+    }
+
+    public Pizza addExtras(String extra, double price) {
+        if(pizza.getExtras() < 3) {
+            pizza.addExtra(extra, price);
+        }
         return pizza;
     }
 }
