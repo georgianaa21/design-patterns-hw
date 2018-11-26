@@ -7,15 +7,21 @@ import menu.*;
 
 //I thought that I should place an order of generic type, which later I will use as an order of a Menu
 //or simply just a Pizza
-public class Order<T> implements Subject, Observer, Creator {
+public class Order<T> implements Subject, Observer, Strategy {
     int id;
     T object;
     boolean done = false;
+
+
 
     List<Observer> observerList = new ArrayList<>();
 
     public Order(int id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -36,22 +42,22 @@ public class Order<T> implements Subject, Observer, Creator {
     @Override
     public void update() {
         done = true;
-        System.out.println("Order " + id + " is ready");
+        System.out.println("Order " + id + " is ready!");
+        notifyObservers();
     }
 
-    //crearea obiectului folosind strategy
-    @Override
     @SuppressWarnings("unchecked")
-    public T create(String type, double price, String ... args) {
+    public T create(String type, String ... args) {
         try {
             if(type == "menu") {
+                double price = Double.parseDouble(args[0]);
                 object = (T)new MenuBuilder()
                         .with(
                                 menuBuilder -> {
-                                    menuBuilder.pizzaType = args[0];
-                                    menuBuilder.sauce = args[1];
-                                    menuBuilder.drink = args[2];
-                                    menuBuilder.desert = args[3];
+                                    menuBuilder.pizzaType = args[1];
+                                    menuBuilder.sauce = args[2];
+                                    menuBuilder.drink = args[3];
+                                    menuBuilder.desert = args[4];
                                     menuBuilder.price = price;
                                     menuBuilder.register(this);
                                     menuBuilder.notifyObservers();
@@ -71,5 +77,10 @@ public class Order<T> implements Subject, Observer, Creator {
         finally {
             return object;
         }
+    }
+
+    @Override
+    public void placedOrder() {
+        System.out.println("This order was placed by unknown channel!");
     }
 }
