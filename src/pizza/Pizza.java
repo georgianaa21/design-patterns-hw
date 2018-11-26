@@ -36,4 +36,16 @@ public abstract class Pizza {
         this.toppings.add(extra);
         this.price += price;
     }
+
+    @Override
+    public String toString() {
+        return "Pizza{" +
+                "name='" + name + '\'' +
+                ", dough='" + dough + '\'' +
+                ", cheese='" + cheese + '\'' +
+                ", extras=" + extras +
+                ", toppings=" + toppings +
+                ", price=" + price +
+                '}';
+    }
 }

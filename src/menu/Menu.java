@@ -5,10 +5,19 @@ import pizza.PizzaFactory;
 
 public class Menu {
 
-    Pizza pizza;
-    String sauce;
-    String drink;
-    String desert;
+    private Pizza pizza;
+    private String sauce;
+    private String drink;
+    private String desert;
+    private double price;
+
+    public Menu(Pizza pizza, String sauce, String drink, String desert, double price) {
+        this.pizza = pizza;
+        this.sauce = sauce;
+        this.drink = drink;
+        this.desert = desert;
+        this.price = price;
+    }
 
     public Pizza getPizza() {
         return pizza;
@@ -26,19 +35,18 @@ public class Menu {
         return desert;
     }
 
-    public void setPizza(Pizza pizza) {
-        this.pizza = pizza;
+    public double getPrice() {
+        return price;
     }
 
-    public void setSauce(String sauce) {
-        this.sauce = sauce;
-    }
-
-    public void setDrink(String drink) {
-        this.drink = drink;
-    }
-
-    public void setDesert(String desert) {
-        this.desert = desert;
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "pizza=" + pizza.toString() +
+                ", sauce='" + sauce + '\'' +
+                ", drink='" + drink + '\'' +
+                ", desert='" + desert + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

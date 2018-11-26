@@ -1,12 +1,27 @@
 package menu;
 
 import pizza.Pizza;
+import pizza.PizzaFactory;
 
-public interface MenuBuilder {
-    Menu build();
+import java.util.function.Consumer;
 
-    MenuBuilder setPizza(final Pizza pizza);
-    MenuBuilder setSauce(final String sauce);
-    MenuBuilder setDrink(final String drink);
-    MenuBuilder setDesert(final String desert);
+public class MenuBuilder {
+    public PizzaFactory pizzaFactory = new PizzaFactory();
+    public String pizzaType;
+    public String sauce;
+    public String drink;
+    public String desert;
+    public double price;
+
+    public MenuBuilder with(
+            Consumer<MenuBuilder> builderFunction) {
+        builderFunction.accept(this);
+        return this;
+    }
+
+    public Menu buildMenu() {
+        return new Menu(pizzaFactory.makePizza(pizzaType),
+                sauce, drink, desert, price);
+    }
+
 }
