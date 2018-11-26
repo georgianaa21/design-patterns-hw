@@ -1,7 +1,15 @@
 package pizza;
 
-public class PizzaFactory {
+import order.Observer;
+import order.Subject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PizzaFactory implements Subject {
     Pizza pizza;
+    List<Observer> observerList = new ArrayList<>();
+
     public Pizza makePizza(String type) {
 
         if(type.equals("margherita")) {
@@ -25,5 +33,20 @@ public class PizzaFactory {
             pizza.addExtra(extra, price);
         }
         return pizza;
+    }
+
+    @Override
+    public void register(Observer observer) {
+        observerList.add(observer);
+    }
+
+    @Override
+    public void unregister(Observer observer) {
+        observerList.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observerList.forEach(Observer::update);
     }
 }
