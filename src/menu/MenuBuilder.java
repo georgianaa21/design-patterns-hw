@@ -18,6 +18,7 @@ public class MenuBuilder implements Subject {
     public double price;
     public int extras = 0;
     private List<Observer> observerList = new ArrayList<>();
+    Menu menu;
 
     public MenuBuilder with(
             Consumer<MenuBuilder> builderFunction) {
@@ -26,9 +27,14 @@ public class MenuBuilder implements Subject {
     }
 
     public Menu buildMenu() {
-        return new Menu(pizzaFactory.makePizza(pizzaType),
+        this.menu = new Menu(pizzaFactory.makePizza(pizzaType),
                 sauce, drink, desert, price);
+        return menu;
     }
+
+//    public Menu addExtra(String extra, double price) {
+//        this.menu.getPizza().
+//    }
 
     @Override
     public void register(Observer observer) {
@@ -44,9 +50,5 @@ public class MenuBuilder implements Subject {
     public void notifyObservers() {
         observerList.forEach(Observer::update);
     }
-
-//    public Menu addExtra(String extra, double price) {
-//        // cum folosesc asta?
-//    }
 
 }

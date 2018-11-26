@@ -1,9 +1,9 @@
 package order;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import java.util.ArrayList;
 import java.util.List;
+import pizza.*;
+import menu.*;
 
 //I thought that I should place an order of generic type, which later I will use as an order of a Menu
 //or simply just a Pizza
@@ -41,9 +41,27 @@ public class Order<T> implements Subject, Observer, Creator {
 
     //crearea obiectului folosind strategy
     @Override
-    public T create(Object object) {
-        T type = null;
+    @SuppressWarnings("unchecked")
+    public T create(String type, float price, String ... args) {
+        if(type == "menu") {
+            object = (T)new MenuBuilder()
+                    .with(
+                            menuBuilder -> {
+                                menuBuilder.pizzaType = args[0];
+                                menuBuilder.sauce = args[1];
+                                menuBuilder.drink = args[2];
+                                menuBuilder.desert = args[3];
+                                menuBuilder.price = price;
+                                menuBuilder.register(this::update);
+                            }
+                    ).buildMenu();
+        }
+        else {
+            PizzaFactory pizzaFactory = new PizzaFactory();
+            object = (T)pizzaFactory.makePizza(args[0]);
+            pizzaFactory.register(this::update);
 
-        return type;
+        }
+        return object;
     }
 }
